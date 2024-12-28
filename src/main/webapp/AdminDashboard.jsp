@@ -75,6 +75,7 @@
   <a href="#addLibrary">Add Library</a>
   <a href="#addBookToLibrary">Add Book to Library</a>
   <a href="#viewLibraries">View Libraries</a>
+  <a href="#borrowReturn">Return Books</a> <!-- New menu item -->
 </nav>
 <div class="container">
   <!-- Add Book Section -->
@@ -122,13 +123,36 @@
     </form>
   </div>
 
+  <!-- Borrow and Return Books Section -->
+  <div id="borrowReturn" class="section">
+    <h2>Borrow and Return Books</h2>
+
+    <h3>Borrow a Book</h3>
+    <form action="borrowReturn" method="POST">
+      <input type="hidden" name="action" value="borrow">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required><br><br>
+      <label for="bookId">Book ID:</label>
+      <input type="number" id="bookId" name="bookId" required><br><br>
+      <button type="submit">Borrow Book</button>
+    </form>
+
+    <h3>Return a Book</h3>
+    <form action="borrowReturn" method="POST">
+      <input type="hidden" name="action" value="return">
+      <label for="transactionId">Transaction ID:</label>
+      <input type="text" id="transactionId" name="transactionId" required><br><br>
+      <button type="submit">Return Book</button>
+    </form>
+  </div>
+
   <!-- Remove Book Section -->
   <div id="removeBook" class="section">
     <h2>Remove a Book</h2>
     <form action="bookManagement" method="POST">
       <input type="hidden" name="action" value="remove">
       <label for="bookId">Book ID:</label><br>
-      <input type="number" id="bookId" name="bookId" required><br><br>
+      <input type="number" id="bookId123" name="bookId" required><br><br>
       <button type="submit">Remove Book</button>
     </form>
   </div>
