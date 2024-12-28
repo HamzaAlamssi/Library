@@ -7,5 +7,12 @@
 <body>
 <h1>Welcome to the Patron Dashboard</h1>
 <p>You are logged in as: Patron</p>
+
+<form action="borrowBook" method="POST">
+    <label for="bookId">Enter Book ID:</label>
+    <input type="text" id="bookId" name="bookId" required>
+    <button type="submit">Borrow Book</button>
+</form>
+
 </body>
 </html>
