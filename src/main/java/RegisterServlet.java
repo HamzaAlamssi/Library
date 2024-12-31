@@ -14,14 +14,16 @@ public class RegisterServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String role = request.getParameter("role");
+        String dob = request.getParameter("dob");
 
         try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             // Insert user into database
-            String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO users (username, password, role, dob) VALUES (?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, username);
             stmt.setString(2, password);
             stmt.setString(3, role);
+            stmt.setString(4, dob);
 
             int rowsInserted = stmt.executeUpdate();
             if (rowsInserted > 0) {

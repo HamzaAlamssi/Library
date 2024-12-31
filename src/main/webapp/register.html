@@ -4,23 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register</title>
+  <link rel="stylesheet" href="auth_styles.css">
 </head>
 <body>
 <h1>Register</h1>
 <form action="RegisterServlet" method="POST">
   <label for="username">Username:</label>
   <input type="text" id="username" name="username" required>
-  <br><br>
+
   <label for="password">Password:</label>
   <input type="password" id="password" name="password" required>
-  <br><br>
+
   <label for="role">Role:</label>
   <select id="role" name="role">
     <option value="Patron">Patron</option>
     <option value="Librarian">Librarian</option>
     <option value="Admin">Admin</option>
   </select>
-  <br><br>
+  <label for="dob">Date of Birth:</label>
+  <input type="date" id="dob" name="dob">
+
   <button type="submit">Register</button>
 </form>
 </body>
