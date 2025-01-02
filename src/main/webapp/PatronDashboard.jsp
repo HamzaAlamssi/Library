@@ -6,77 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Patron Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0fff0; /* Light green background */
-            color: #006400; /* Dark green text */
-            margin: 0;
-            padding: 0;
-        }
-
-        header {
-            background-color: #228b22; /* Forest green */
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-        }
-
-        .container {
-            margin: 20px;
-        }
-
-        h1, h2 {
-            color: #006400; /* Dark green */
-        }
-
-        form {
-            background-color: #ffffff; /* White background */
-            border: 1px solid #228b22; /* Forest green border */
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        form label {
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        form input, form textarea, form select, form button {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #228b22;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        form button {
-            background-color: #228b22; /* Forest green */
-            color: white;
-            cursor: pointer;
-        }
-
-        form button:hover {
-            background-color: #006400; /* Dark green */
-        }
-
-        .link-button {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #228b22;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        .link-button:hover {
-            background-color: #006400;
-        }
-    </style>
 </head>
+<link rel="stylesheet" href="styles/patron-styles.css">
 <body>
 <header>
     <h1>Welcome to the Patron Dashboard</h1>
@@ -128,11 +59,7 @@
 
     <!-- View Book Reviews -->
     <h2>View Book Reviews</h2>
-    <form action="viewReviews" method="GET">
-        <label for="bookIdReview">Enter Book ID:</label>
-        <input type="number" id="bookIdReview" name="bookId" required>
-        <button type="submit">View Reviews</button>
-    </form>
+    <a class="link-button" href="ViewReviews.jsp">View Book Reviews</a>
     <h2>Share a Book</h2>
     <form action="shareBook" method="POST">
         <label for="book-Id">Book ID:</label>

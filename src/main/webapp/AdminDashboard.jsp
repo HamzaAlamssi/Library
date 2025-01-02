@@ -3,7 +3,7 @@
 <html>
 <head>
   <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles/admin-styles.css">
 </head>
 <body>
 <header>

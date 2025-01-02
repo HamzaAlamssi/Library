@@ -1,0 +1,122 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Center the content */
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Headings */
+h1, h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: black;
+}
+
+/* Form Styles */
+form {
+    width: 100%;
+}
+
+form label {
+    display: block;
+    text-align: left;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    color: black;
+}
+
+form input,
+form select,
+form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="date"],
+form select {
+    background: rgba(255, 255, 255, 0.2);
+    color: black;
+    outline: none;
+}
+
+form input[type="text"]::placeholder,
+form input[type="password"]::placeholder {
+    color: #aaa;
+}
+
+form input:focus,
+form select:focus {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+form button {
+    background: #4caf50;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background: #43a047;
+}
+
+/* Additional Text and Links */
+p {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #ddd;
+}
+
+p a {
+    color: #76c7ff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+p a:hover {
+    color: #a1e3ff;
+}
+
+/* Align Login Title */
+h2 {
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1, h2 {
+        font-size: 1.5rem;
+    }
+}

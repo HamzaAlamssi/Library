@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Manage Books</title>
 </head>
+<link rel="stylesheet" href="styles/librarian-styles.css">
 <body>
 <h1>Manage Books</h1>
 <form action="librarian" method="POST">

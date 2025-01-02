@@ -3,57 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Manage Patrons</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
-            margin: 20px;
-        }
-
-        h1 {
-            color: #2c3e50;
-        }
-
-        h2 {
-            color: #16a085;
-        }
-
-        form {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-            max-width: 400px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        input, button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        button {
-            background-color: #16a085;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #12876f;
-        }
-    </style>
+    <link rel="stylesheet" href="styles/librarian-styles.css">
 </head>
 <body>
 <h1>Manage Patrons</h1>

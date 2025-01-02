@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Fine Management</title>
 </head>
+<link rel="stylesheet" href="styles/librarian-styles.css">
 <body>
 <h1>Manage Fines</h1>
 <form action="librarian" method="POST">

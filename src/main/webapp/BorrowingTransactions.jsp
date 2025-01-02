@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Borrowing Transactions</title>
 </head>
+<link rel="stylesheet" href="styles/librarian-styles.css">
 <body>
 <h1>Borrow or Return a Book</h1>
 <form action="librarian" method="POST">

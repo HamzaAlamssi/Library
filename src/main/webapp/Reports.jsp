@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Reports</title>
 </head>
+<link rel="stylesheet" href="styles/librarian-styles.css">
 <body>
 <h1>Reports</h1>
 <form action="librarian" method="GET">

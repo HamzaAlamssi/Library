@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Librarian Dashboard</title>
 </head>
+<link rel="stylesheet" href="styles/librarian-styles.css">
 <body>
 <h1>Welcome, Librarian</h1>
 <ul>
