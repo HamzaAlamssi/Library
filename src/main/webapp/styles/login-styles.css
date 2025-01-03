@@ -3,7 +3,7 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    background: linear-gradient(135deg, #1abc9c, #3498db);
     color: black;
     display: flex;
     justify-content: center;
@@ -27,7 +27,7 @@ h1, h2 {
     text-align: center;
     margin-bottom: 20px;
     font-size: 2rem;
-    color: black;
+    color: #34495e;
 }
 
 /* Form Styles */
@@ -41,7 +41,7 @@ form label {
     margin-bottom: 8px;
     font-weight: bold;
     font-size: 1rem;
-    color: black;
+    color: #34495e;
 }
 
 form input,
@@ -75,7 +75,7 @@ form select:focus {
 }
 
 form button {
-    background: #4caf50;
+    background: #34495e;
     color: white;
     font-weight: bold;
     cursor: pointer;
@@ -83,25 +83,25 @@ form button {
 }
 
 form button:hover {
-    background: #43a047;
+    background: #34719d;
 }
 
 /* Additional Text and Links */
 p {
     margin-top: 10px;
     font-size: 0.9rem;
-    color: #ddd;
+    color: #34495e;
 }
 
 p a {
-    color: #76c7ff;
+    color: #3498db;
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s;
 }
 
 p a:hover {
-    color: #a1e3ff;
+    color: #2980b9;
 }
 
 /* Align Login Title */
@@ -109,7 +109,6 @@ h2 {
     margin-bottom: 30px;
     font-size: 1.8rem;
 }
-
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {

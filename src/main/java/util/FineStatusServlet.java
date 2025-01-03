@@ -24,7 +24,7 @@ public class FineStatusServlet extends HttpServlet {
         }
 
         try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
-            String sql = "SELECT f.amount, f.status " +
+            String sql = "SELECT f.amount, f.status "+
                     "FROM fines f JOIN borrow_transactions bt ON f.transaction_id = bt.transaction_id " +
                     "WHERE bt.username = (SELECT username FROM users WHERE username = ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);

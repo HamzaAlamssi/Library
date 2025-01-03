@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <title>Fine Management</title>
 </head>
-<link rel="stylesheet" href="styles/librarian-styles.css">
+<link rel="stylesheet" href="styles/librarian-pages-styles.css">
 <body>
-<h1>Manage Fines</h1>
+<h1>Pay Fine</h1>
 <form action="librarian" method="POST">
   <input type="hidden" name="action" value="updateFineStatus">
   <label>Fine ID: <input type="text" name="fineId"></label><br>

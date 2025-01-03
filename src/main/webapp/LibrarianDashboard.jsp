@@ -4,17 +4,26 @@
   <meta charset="UTF-8">
   <title>Librarian Dashboard</title>
 </head>
-<link rel="stylesheet" href="styles/librarian-styles.css">
+<link rel="stylesheet" href="styles/librarian-pages-styles.css">
 <body>
-<h1>Welcome, Librarian</h1>
+<h1>Librarian Dashboard</h1>
+<h1>Welcome <%= session.getAttribute("username") %> </h1>
 <ul>
-  <li><a href="ManageBooks.jsp">Manage Books</a></li>
-  <li><a href="BorrowingTransactions.jsp">Borrow/Return Transactions</a></li>
-  <li><a href="FineManagement.jsp">Manage Fines</a></li>
-<%--  <li><a href="ViewPatronHistory.jsp">View Patron History</a></li>--%>
-  <li><a href="Reports.jsp">View Reports</a></li>
+  <li><a href="ManageBooks.jsp">Add Book</a></li>
+  <li><a href="EditBook.jsp">Edit Book</a></li>
+  <li><a href="RemoveBook.jsp">Remove Book</a></li>
+  <li><a href="BorrowingTransactions.jsp">Return Borrowed Book</a></li>
+  <li><a href="FineManagement.jsp">Set Fine Paid</a></li>
+  <li><a href="Reports.jsp">View Fine Reports</a></li>
   <h2>Patron Management</h2>
-  <a href="ManagePatrons.jsp" style="display: inline-block; padding: 10px 15px; background-color: #228b22; color: white; text-decoration: none; border-radius: 5px;">Manage Patrons</a>
+  <li><a href="ManagePatrons.jsp" >Manage Patrons</a></li>
+  <h2>View Library Usage Statistics</h2>
+  <li><a href="libraryStats">View Statistics</a></li>
+  <h2>View All Books</h2>
+  <form action="bookManagement" method="GET">
+    <input type="hidden" name="action" value="viewAll">
+    <button type="submit">View Books</button>
+  </form>
 
 </ul>
 </body>

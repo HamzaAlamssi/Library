@@ -1,16 +1,15 @@
 package util;
 
 import jakarta.servlet.annotation.*;
-        import java.io.IOException;
+import jakarta.servlet.ServletContext;
+import java.io.IOException;
 import java.sql.*;
-        import java.time.LocalDate;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.UUID;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import util.DatabaseConnection;
 
 @WebServlet("/borrowReturn")
 public class ReturnServlet extends HttpServlet {
@@ -20,7 +19,7 @@ public class ReturnServlet extends HttpServlet {
         try {
             Connection conn = DatabaseConnection.getInstance().getConnection();
 
-             if ("return".equals(action)) {
+            if ("return".equals(action)) {
                 returnBook(request, response, conn);
             } else {
                 response.getWriter().println("Invalid action.");
@@ -34,6 +33,9 @@ public class ReturnServlet extends HttpServlet {
     }
 
     private void returnBook(HttpServletRequest request, HttpServletResponse response, Connection conn) throws SQLException, IOException {
+        ServletContext context = getServletContext();
+        int fineRate = Integer.parseInt(context.getInitParameter("fineRate")); // Retrieve fine rate from configuration
+
         String transactionId = request.getParameter("transactionId");
 
         // Fetch transaction details
@@ -47,9 +49,9 @@ public class ReturnServlet extends HttpServlet {
             LocalDate dueDate = rs.getDate("due_date").toLocalDate();
             LocalDate returnDate = LocalDate.now();
 
-            // Calculate fine
+            // Calculate fine using the configured fine rate
             long overdueDays = ChronoUnit.DAYS.between(dueDate, returnDate);
-            double fine = overdueDays > 0 ? overdueDays * 1.0 : 0.0;
+            double fine = overdueDays > 0 ? overdueDays * fineRate : 0.0;
 
             // Update borrow_transactions
             String updateTransactionSql = "UPDATE borrow_transactions SET return_date = ?, fine = ? WHERE transaction_id = ?";
@@ -57,8 +59,17 @@ public class ReturnServlet extends HttpServlet {
             updateStmt.setDate(1, Date.valueOf(returnDate));
             updateStmt.setDouble(2, fine);
             updateStmt.setString(3, transactionId);
-
             updateStmt.executeUpdate();
+
+            // Insert fine record if applicable
+            if (fine > 0) {
+                String insertFineSql = "INSERT INTO fines (transaction_id, amount, status) VALUES (?, ?, 'Unpaid')";
+                PreparedStatement insertFineStmt = conn.prepareStatement(insertFineSql);
+                insertFineStmt.setString(1, transactionId);
+                insertFineStmt.setDouble(2, fine);
+                insertFineStmt.executeUpdate();
+                insertFineStmt.close();
+            }
 
             // Update book availability
             String updateBookSql = "UPDATE books SET availability = TRUE WHERE book_id = ?";

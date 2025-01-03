@@ -37,8 +37,8 @@
 <!-- Remove Patron -->
 <h2>Remove Patron</h2>
 <form action="patronManagement?action=remove" method="POST">
-    <label>User ID:</label>
-    <input type="number" name="userId" required>
+    <label>Username:</label>
+    <input type="text" name="username" required>
     <button type="submit">Remove Patron</button>
 </form>
 

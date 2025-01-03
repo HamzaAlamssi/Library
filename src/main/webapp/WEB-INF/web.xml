@@ -3,24 +3,23 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
+
+    <!-- Welcome File -->
     <welcome-file-list>
         <welcome-file>login.html</welcome-file> <!-- Default page on startup -->
     </welcome-file-list>
-<!--    <servlet>-->
-<!--        <servlet-name>RegisterServlet</servlet-name>-->
-<!--        <servlet-class>RegisterServlet</servlet-class>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>RegisterServlet</servlet-name>-->
-<!--        <url-pattern>/RegisterServlet</url-pattern>-->
-<!--    </servlet-mapping>-->
 
-<!--    <servlet>-->
-<!--        <servlet-name>LoginServlet</servlet-name>-->
-<!--        <servlet-class>LoginServlet</servlet-class>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>LoginServlet</servlet-name>-->
-<!--        <url-pattern>/login</url-pattern>-->
-<!--    </servlet-mapping>-->
+    <!-- System Configuration Parameters -->
+    <context-param>
+        <param-name>fineRate</param-name>
+        <param-value>1</param-value>
+    </context-param>
+    <context-param>
+        <param-name>maxBorrowLimit</param-name>
+        <param-value>3</param-value>
+    </context-param>
+    <context-param>
+        <param-name>borrowingPeriod</param-name>
+        <param-value>10</param-value>
+    </context-param>
 </web-app>

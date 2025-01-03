@@ -115,7 +115,21 @@ public class BookManagementServlet extends HttpServlet {
     }
 
     private void viewAllBooks(HttpServletRequest request, HttpServletResponse response, Connection conn) throws SQLException, IOException {
-        String sql = "SELECT * FROM books";
+        // Enhanced query to include borrowing and reservation status
+        String sql = """
+        SELECT b.book_id, b.title, b.author, b.genre, b.isbn, b.year_of_publication, b.availability,
+               CASE
+                   WHEN b.availability = FALSE AND EXISTS (
+                       SELECT 1 FROM borrow_transactions bt WHERE bt.book_id = b.book_id AND bt.return_date IS NULL
+                   ) THEN 'Borrowed'
+                   WHEN b.availability = FALSE AND EXISTS (
+                       SELECT 1 FROM book_reservations br WHERE br.book_id = b.book_id
+                   ) THEN 'Reserved'
+                   ELSE 'Available'
+               END AS availability_status
+        FROM books b
+    """;
+
         PreparedStatement stmt = conn.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();
 
@@ -131,7 +145,7 @@ public class BookManagementServlet extends HttpServlet {
             response.getWriter().println("<td>" + rs.getString("genre") + "</td>");
             response.getWriter().println("<td>" + rs.getString("isbn") + "</td>");
             response.getWriter().println("<td>" + rs.getInt("year_of_publication") + "</td>");
-            response.getWriter().println("<td>" + (rs.getBoolean("availability") ? "Available" : "Not Available") + "</td>");
+            response.getWriter().println("<td>" + rs.getString("availability_status") + "</td>");
             response.getWriter().println("</tr>");
         }
         response.getWriter().println("</table>");
@@ -139,4 +153,5 @@ public class BookManagementServlet extends HttpServlet {
         rs.close();
         stmt.close();
     }
+
 }

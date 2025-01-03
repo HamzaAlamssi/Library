@@ -7,10 +7,10 @@ import java.sql.SQLException;
 public class DatabaseConnection {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/LibraryManagementSystem";
     private static final String DB_USERNAME = "root";
-    private static final String DB_PASSWORD = "0000";
+    private static final String DB_PASSWORD = "test";
 
     private static DatabaseConnection instance;
-    private final Connection connection;
+    private Connection connection;
 
     // Private constructor to prevent instantiation
     private DatabaseConnection() throws SQLException, ClassNotFoundException {

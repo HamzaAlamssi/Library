@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
+
 @WebServlet("/searchBooks")
 public class SearchBooksServlet extends HttpServlet {
     @Override
@@ -32,7 +33,7 @@ public class SearchBooksServlet extends HttpServlet {
                 response.getWriter().println("<tr>");
                 response.getWriter().println("<td>" + rs.getString("title") + "</td>");
                 response.getWriter().println("<td>" + rs.getString("author") + "</td>");
-                response.getWriter().println("<td>" + (rs.getBoolean("availability") ? "Available" : "Borrowed") + "</td>");
+                response.getWriter().println("<td>" + (rs.getBoolean("availability") ? "Available" : "Not Available") + "</td>");
                 response.getWriter().println("</tr>");
             }
             response.getWriter().println("</table>");

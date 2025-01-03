@@ -6,18 +6,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Patron Dashboard</title>
+    <link rel="stylesheet" href="styles/patron-styles.css">
 </head>
-<link rel="stylesheet" href="styles/patron-styles.css">
 <body>
 <header>
-    <h1>Welcome to the Patron Dashboard</h1>
-    <p>You are logged in as: Patron</p>
+    <h1>Patron Dashboard</h1>
+    <p>Welcome <%= session.getAttribute("username") %> </p>
+    <p>You are logged in as: <b>Patron</b></p>
 </header>
-
+<nav>
+    <a href="#searchBooks">Search for Books</a>
+    <a href="#borrowBook">Borrow a Book</a>
+    <a href="#reserveBook">Reserve a Book</a>
+    <a href="#borrowingHistory">View Borrowing History</a>
+    <a href="#fineStatus">View Fine Status</a>
+    <a href="#addReview">Add a Review</a>
+    <a href="#viewReviews">View Book Reviews</a>
+    <a href="#shareBook">Share a Book</a>
+    <a href="viewSharedBooks">View Shared Books</a>
+</nav>
 <div class="container">
 
     <!-- Search for Books -->
-    <h2>Search for Books</h2>
+    <h2 id="searchBooks">Search for Books</h2>
     <form action="searchBooks" method="GET">
         <label for="query">Search Query:</label>
         <input type="text" id="query" name="query" required>
@@ -30,23 +41,31 @@
     </form>
 
     <!-- Borrow a Book -->
-    <h2>Borrow a Book</h2>
+    <h2 id="borrowBook">Borrow a Book</h2>
     <form action="borrowBook" method="POST">
         <label for="bookId">Enter Book ID:</label>
         <input type="text" id="bookId" name="bookId" required>
         <button type="submit">Borrow Book</button>
     </form>
 
+    <!-- Reserve a Book -->
+    <h2 id="reserveBook">Reserve a Book</h2>
+    <form action="reserveBook" method="POST">
+        <label for="reserveBookId">Enter Book ID:</label>
+        <input type="text" id="reserveBookId" name="bookId" required>
+        <button type="submit">Reserve Book</button>
+    </form>
+
     <!-- View Borrowing History -->
-    <h2>Your Borrowing History</h2>
+    <h2 id="borrowingHistory">Your Borrowing History</h2>
     <a class="link-button" href="borrowingHistory">View Borrowing History</a>
 
     <!-- View Fine Status -->
-    <h2>Your Fine Status</h2>
+    <h2 id="fineStatus">Your Fine Status</h2>
     <a class="link-button" href="fineStatus">View Fine Status</a>
 
     <!-- Add a Review -->
-    <h2>Add a Review</h2>
+    <h2 id="addReview">Add a Review</h2>
     <form action="addReview" method="POST">
         <label for="bookId">Book ID:</label>
         <input type="number" id="book_Id" name="book_Id" required>
@@ -58,9 +77,11 @@
     </form>
 
     <!-- View Book Reviews -->
-    <h2>View Book Reviews</h2>
+    <h2 id="viewReviews">View Book Reviews</h2>
     <a class="link-button" href="ViewReviews.jsp">View Book Reviews</a>
-    <h2>Share a Book</h2>
+
+    <!-- Share a Book -->
+    <h2 id="shareBook">Share a Book</h2>
     <form action="shareBook" method="POST">
         <label for="book-Id">Book ID:</label>
         <input type="number" id="book-Id" name="book-Id" required>

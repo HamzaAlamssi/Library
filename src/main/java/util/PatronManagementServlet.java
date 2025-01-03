@@ -130,12 +130,12 @@ public class PatronManagementServlet extends HttpServlet {
 
 
     private void removePatron(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int userId = Integer.parseInt(request.getParameter("userId"));
+        String username = request.getParameter("username");
 
         try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
-            String sql = "DELETE FROM users WHERE user_id = ? AND role = 'Patron'";
+            String sql = "DELETE FROM users WHERE username = ? AND role = 'Patron'";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, userId);
+            stmt.setString(1, username);
 
             int rows = stmt.executeUpdate();
             response.getWriter().println(rows > 0 ? "Patron removed successfully." : "Failed to remove patron.");

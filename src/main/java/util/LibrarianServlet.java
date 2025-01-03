@@ -1,5 +1,6 @@
 package util;
 
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -95,26 +96,76 @@ public class LibrarianServlet extends HttpServlet {
     // Edit Book
     private void editBook(HttpServletRequest request, HttpServletResponse response, Connection conn) throws Exception {
         int bookId = Integer.parseInt(request.getParameter("bookId"));
-        String title = request.getParameter("title");
-        String author = request.getParameter("author");
-        String genre = request.getParameter("genre");
-        String isbn = request.getParameter("isbn");
-        int year = Integer.parseInt(request.getParameter("year"));
-        boolean availability = Boolean.parseBoolean(request.getParameter("availability"));
 
-        String sql = "UPDATE books SET title = ?, author = ?, genre = ?, isbn = ?, year_of_publication = ?, availability = ? WHERE book_id = ?";
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setString(1, title);
-        stmt.setString(2, author);
-        stmt.setString(3, genre);
-        stmt.setString(4, isbn);
-        stmt.setInt(5, year);
-        stmt.setBoolean(6, availability);
-        stmt.setInt(7, bookId);
+        // Dynamically build SQL query based on provided parameters
+        StringBuilder sql = new StringBuilder("UPDATE books SET ");
+        boolean hasUpdates = false;
 
+        if (request.getParameter("title") != null && !request.getParameter("title").trim().isEmpty()) {
+            sql.append("title = ?, ");
+            hasUpdates = true;
+        }
+        if (request.getParameter("author") != null && !request.getParameter("author").trim().isEmpty()) {
+            sql.append("author = ?, ");
+            hasUpdates = true;
+        }
+        if (request.getParameter("genre") != null && !request.getParameter("genre").trim().isEmpty()) {
+            sql.append("genre = ?, ");
+            hasUpdates = true;
+        }
+        if (request.getParameter("isbn") != null && !request.getParameter("isbn").trim().isEmpty()) {
+            sql.append("isbn = ?, ");
+            hasUpdates = true;
+        }
+        if (request.getParameter("year") != null && !request.getParameter("year").trim().isEmpty()) {
+            sql.append("year_of_publication = ?, ");
+            hasUpdates = true;
+        }
+        if (request.getParameter("availability") != null && !request.getParameter("availability").trim().isEmpty()) {
+            sql.append("availability = ?, ");
+            hasUpdates = true;
+        }
+
+        // Remove trailing comma and space, add WHERE clause
+        if (!hasUpdates) {
+            response.getWriter().println("No fields to update.");
+            return;
+        }
+
+        sql.setLength(sql.length() - 2); // Remove last ", "
+        sql.append(" WHERE book_id = ?");
+
+        PreparedStatement stmt = conn.prepareStatement(sql.toString());
+
+        // Set parameters for non-empty fields
+        int paramIndex = 1;
+        if (request.getParameter("title") != null && !request.getParameter("title").trim().isEmpty()) {
+            stmt.setString(paramIndex++, request.getParameter("title"));
+        }
+        if (request.getParameter("author") != null && !request.getParameter("author").trim().isEmpty()) {
+            stmt.setString(paramIndex++, request.getParameter("author"));
+        }
+        if (request.getParameter("genre") != null && !request.getParameter("genre").trim().isEmpty()) {
+            stmt.setString(paramIndex++, request.getParameter("genre"));
+        }
+        if (request.getParameter("isbn") != null && !request.getParameter("isbn").trim().isEmpty()) {
+            stmt.setString(paramIndex++, request.getParameter("isbn"));
+        }
+        if (request.getParameter("year") != null && !request.getParameter("year").trim().isEmpty()) {
+            stmt.setInt(paramIndex++, Integer.parseInt(request.getParameter("year")));
+        }
+        if (request.getParameter("availability") != null && !request.getParameter("availability").trim().isEmpty()) {
+            stmt.setBoolean(paramIndex++, Boolean.parseBoolean(request.getParameter("availability")));
+        }
+
+        // Set book ID
+        stmt.setInt(paramIndex, bookId);
+
+        // Execute the update
         int rows = stmt.executeUpdate();
         response.getWriter().println(rows > 0 ? "Book updated successfully." : "Failed to update book.");
     }
+
 
     // Remove Book
     private void removeBook(HttpServletRequest request, HttpServletResponse response, Connection conn) throws Exception {
@@ -130,8 +181,13 @@ public class LibrarianServlet extends HttpServlet {
 
     // Return Book
     private void returnBook(HttpServletRequest request, HttpServletResponse response, Connection conn) throws Exception {
+        // Retrieve the fine rate from web.xml via ServletContext
+        ServletContext context = request.getServletContext();
+        int fineRate = Integer.parseInt(context.getInitParameter("fineRate")); // Fine rate defined in web.xml
+
         String transactionId = request.getParameter("transactionId");
 
+        // Fetch transaction details
         String fetchTransactionSql = "SELECT book_id, due_date FROM borrow_transactions WHERE transaction_id = ?";
         PreparedStatement fetchStmt = conn.prepareStatement(fetchTransactionSql);
         fetchStmt.setString(1, transactionId);
@@ -142,27 +198,32 @@ public class LibrarianServlet extends HttpServlet {
             LocalDate dueDate = rs.getDate("due_date").toLocalDate();
             LocalDate returnDate = LocalDate.now();
 
+            // Calculate fine using the configured fine rate
             long overdueDays = ChronoUnit.DAYS.between(dueDate, returnDate);
-            double fine = overdueDays > 0 ? overdueDays * 1.0 : 0.0;
+            double fine = overdueDays > 0 ? overdueDays * fineRate : 0.0;
 
+            // Update the borrow transaction with return details and calculated fine
             String updateTransactionSql = "UPDATE borrow_transactions SET return_date = ?, fine = ? WHERE transaction_id = ?";
             PreparedStatement updateStmt = conn.prepareStatement(updateTransactionSql);
             updateStmt.setDate(1, Date.valueOf(returnDate));
             updateStmt.setDouble(2, fine);
             updateStmt.setString(3, transactionId);
-
             updateStmt.executeUpdate();
 
+            // Update the book availability to true
             String updateBookSql = "UPDATE books SET availability = TRUE WHERE book_id = ?";
             PreparedStatement updateBookStmt = conn.prepareStatement(updateBookSql);
             updateBookStmt.setInt(1, bookId);
             updateBookStmt.executeUpdate();
 
+            // Send success response to the client
             response.getWriter().println("Book returned successfully. Fine: " + fine + " JD.");
         } else {
+            // Handle case where the transaction ID is invalid
             response.getWriter().println("Invalid transaction ID.");
         }
     }
+
 
     // Update Fine Status
     private void updateFineStatus(HttpServletRequest request, HttpServletResponse response, Connection conn) throws Exception {
@@ -240,12 +301,12 @@ public class LibrarianServlet extends HttpServlet {
 
         response.setContentType("text/html");
         response.getWriter().println("<table border='1'>");
-        response.getWriter().println("<tr><th>Fine ID</th><th>Patron ID</th><th>Amount</th><th>Status</th></tr>");
+        response.getWriter().println("<tr><th>Fine ID</th><th>Transaction ID</th><th>Amount</th><th>Status</th></tr>");
 
         while (rs.next()) {
             response.getWriter().println("<tr>");
             response.getWriter().println("<td>" + rs.getInt("fine_id") + "</td>");
-            response.getWriter().println("<td>" + rs.getString("patron_id") + "</td>");
+            response.getWriter().println("<td>" + rs.getString("transaction_id") + "</td>");
             response.getWriter().println("<td>" + rs.getDouble("amount") + "</td>");
             response.getWriter().println("<td>" + rs.getString("status") + "</td>");
             response.getWriter().println("</tr>");

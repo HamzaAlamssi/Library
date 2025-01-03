@@ -29,7 +29,7 @@ public class ShareBookServlet extends HttpServlet {
 
         try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             // Get user IDs
-            String getUserSql = "SELECT user_id FROM users WHERE username = ?";
+            String getUserSql = "SELECT user_id, role FROM users WHERE username = ?";
             PreparedStatement getUserStmt = conn.prepareStatement(getUserSql);
 
             // Get shared_by user ID
@@ -41,7 +41,7 @@ public class ShareBookServlet extends HttpServlet {
             }
             int sharedById = rs1.getInt("user_id");
 
-            // Get shared_with user ID
+            // Get shared_with user ID and role
             getUserStmt.setString(1, sharedWithUsername);
             ResultSet rs2 = getUserStmt.executeQuery();
             if (!rs2.next()) {
@@ -49,6 +49,13 @@ public class ShareBookServlet extends HttpServlet {
                 return;
             }
             int sharedWithId = rs2.getInt("user_id");
+            String sharedWithRole = rs2.getString("role");
+
+            // Check if the shared_with user is a patron
+            if (!"patron".equalsIgnoreCase(sharedWithRole)) {
+                response.getWriter().println("Error: You can only share books with users who are patrons.");
+                return;
+            }
 
             // Insert into shared_books table
             String sql = "INSERT INTO shared_books (book_id, shared_by, shared_with, comment) VALUES (?, ?, ?, ?)";
